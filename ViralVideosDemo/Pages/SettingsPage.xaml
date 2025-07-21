@@ -365,11 +365,30 @@
             </Grid>
 
             <!--  Loading Indicator  -->
-            <ActivityIndicator
-                HeightRequest="30"
-                IsRunning="{Binding IsSaving}"
-                IsVisible="{Binding IsSaving}"
-                Color="{StaticResource Primary}" />
+            <StackLayout IsVisible="{Binding IsSaving}" 
+                         Padding="20"
+                         HorizontalOptions="Center" 
+                         VerticalOptions="Center"
+                         Spacing="15">
+                
+                <ActivityIndicator IsRunning="{Binding IsSaving}"
+                                   Color="{StaticResource Primary}"
+                                   HeightRequest="40"
+                                   WidthRequest="40"
+                                   HorizontalOptions="Center" />
+                
+                <Label Text="Saving Configuration..." 
+                       FontSize="16" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="Center" 
+                       TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}" />
+                
+                <Label Text="Validating and storing your settings" 
+                       FontSize="14" 
+                       HorizontalOptions="Center" 
+                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                
+            </StackLayout>
 
         </VerticalStackLayout>
     </ScrollView>

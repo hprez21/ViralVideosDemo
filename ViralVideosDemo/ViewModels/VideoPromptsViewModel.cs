@@ -269,15 +269,9 @@ public partial class VideoPromptsViewModel : ObservableObject, IQueryAttributabl
                 return;
             }
 
-            // Show loading dialog
-            if (page != null)
-            {
-                Debug.WriteLine("[VideoPrompts] Showing generation dialog");
-                await page.DisplayAlert(
-                    "Generando Video", 
-                    "Creando tu video viral con IA. Esto puede tomar varios minutos...", 
-                    "OK");
-            }
+            // Activate loading UI (blocks all interaction)
+            IsLoading = true;
+            Debug.WriteLine("[VideoPrompts] Loading UI activated - blocking all interaction");
 
             // Generate the combined prompt from all prompts
             var combinedPrompt = string.Join(". ", Prompts.Select(p => p.Content));
@@ -370,6 +364,12 @@ public partial class VideoPromptsViewModel : ObservableObject, IQueryAttributabl
             {
                 await page.DisplayAlert("Error", $"Error al generar video: {ex.Message}", "OK");
             }
+        }
+        finally
+        {
+            // Always deactivate loading UI regardless of success or failure
+            IsLoading = false;
+            Debug.WriteLine("[VideoPrompts] Loading UI deactivated - interaction restored");
         }
     }
 

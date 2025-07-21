@@ -305,6 +305,52 @@
                 Text="{Binding GenerateButtonText}"
                 TextColor="White" />
 
+            <!--  Enhanced Loading Indicator  -->
+            <StackLayout
+                Margin="0,20,0,0"
+                HorizontalOptions="Center"
+                IsVisible="{Binding IsGenerating}"
+                Spacing="20"
+                VerticalOptions="Center">
+
+                <ActivityIndicator
+                    HeightRequest="50"
+                    HorizontalOptions="Center"
+                    IsRunning="{Binding IsGenerating}"
+                    Color="{StaticResource Primary}"
+                    WidthRequest="50" />
+
+                <StackLayout Spacing="10">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        HorizontalOptions="Center"
+                        Text="🧠 Procesando tu idea..."
+                        TextColor="{AppThemeBinding Light={StaticResource Primary},
+                                                    Dark={StaticResource Primary}}"
+                        HorizontalTextAlignment="Center" />
+
+                    <Label
+                        FontSize="14"
+                        HorizontalOptions="Center"
+                        Text="Estamos mejorando tu idea con IA y generando prompts optimizados para crear un video viral increíble."
+                        TextColor="{AppThemeBinding Light={StaticResource Gray600},
+                                                    Dark={StaticResource Gray400}}"
+                        HorizontalTextAlignment="Center"
+                        LineBreakMode="WordWrap" />
+                        
+                    <Label
+                        FontSize="12"
+                        HorizontalOptions="Center"
+                        Text="⏱️ Este proceso puede tomar unos momentos"
+                        TextColor="{AppThemeBinding Light={StaticResource Gray500},
+                                                    Dark={StaticResource Gray500}}"
+                        HorizontalTextAlignment="Center"
+                        FontAttributes="Italic" />
+                </StackLayout>
+
+            </StackLayout>
+
         </VerticalStackLayout>
     </ScrollView>
 

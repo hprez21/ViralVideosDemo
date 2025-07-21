@@ -10,6 +10,36 @@
     <ScrollView>
         <StackLayout Padding="20" Spacing="15">
             
+            <!--  Loading Indicator  -->
+            <StackLayout IsVisible="{Binding IsLoading}" 
+                         Padding="30"
+                         HorizontalOptions="Center" 
+                         VerticalOptions="Center"
+                         Spacing="20">
+                
+                <ActivityIndicator IsRunning="{Binding IsLoading}" 
+                                   Color="{StaticResource Primary}"
+                                   HeightRequest="50"
+                                   WidthRequest="50"
+                                   HorizontalOptions="Center" />
+                
+                <Label Text="Loading your generated video..." 
+                       FontSize="18" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="Center" 
+                       TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}" />
+                
+                <Label Text="Please wait while we prepare your video for playback" 
+                       FontSize="14" 
+                       HorizontalOptions="Center" 
+                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                
+            </StackLayout>
+            
+            <!--  Main Content (hidden while loading)  -->
+            <StackLayout IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" 
+                         Spacing="15">
+            
             <!-- Video Title -->
             <Label Text="{Binding VideoTitle}" 
                    FontSize="18" 
@@ -158,6 +188,8 @@
                         TextColor="White"
                         WidthRequest="120"/>
             </StackLayout>
+            
+            </StackLayout> <!-- Closing main content StackLayout -->
             
         </StackLayout>
     </ScrollView>

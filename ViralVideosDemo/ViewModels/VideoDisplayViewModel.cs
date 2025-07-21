@@ -38,6 +38,9 @@ namespace ViralVideosDemo.ViewModels
         [ObservableProperty]
         private bool hasEnhancedPrompt = false;
 
+        [ObservableProperty]
+        private bool isLoading = true;
+
         public VideoDisplayViewModel()
         {
             // Sample data for demonstration
@@ -71,6 +74,7 @@ namespace ViralVideosDemo.ViewModels
             {
                 VideoDuration = _mediaElement.Duration.ToString(@"mm\:ss");
                 VideoStatus = "Ready to play";
+                IsLoading = false; // Stop loading when media is ready
             }
         }
 
@@ -82,6 +86,7 @@ namespace ViralVideosDemo.ViewModels
         private void OnMediaFailed(object? sender, EventArgs e)
         {
             VideoStatus = "Error loading video";
+            IsLoading = false; // Stop loading on error
         }
 
         [RelayCommand]
@@ -194,6 +199,9 @@ namespace ViralVideosDemo.ViewModels
         {
             Debug.WriteLine("[VideoDisplay] ApplyQueryAttributes called");
             Debug.WriteLine($"[VideoDisplay] Received {query.Count} parameters:");
+            
+            // Start loading when receiving new video parameters
+            IsLoading = true;
             
             foreach (var kvp in query)
             {

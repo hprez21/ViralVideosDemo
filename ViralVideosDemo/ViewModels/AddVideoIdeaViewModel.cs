@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Controls;
@@ -172,15 +173,12 @@ public partial class AddVideoIdeaViewModel : ObservableObject
                     {
                         finalVideoIdea = await _chatService.EnhancePromptAsync(VideoIdea);
                         
-                        if (_page != null)
-                        {
-                            await _page.DisplayAlert("Enhanced!", 
-                                $"Your idea has been enhanced by AI!\n\nOriginal: {VideoIdea}\n\nEnhanced: {finalVideoIdea}", 
-                                "Continue");
-                        }
+                        // No DisplayAlert - keep loading while processing
+                        Debug.WriteLine($"[AddVideoIdea] Idea enhanced successfully: {finalVideoIdea}");
                     }
                     catch (Exception ex)
                     {
+                        Debug.WriteLine($"[AddVideoIdea] Enhancement failed: {ex.Message}");
                         if (_page != null)
                         {
                             await _page.DisplayAlert("Enhancement Failed", 
