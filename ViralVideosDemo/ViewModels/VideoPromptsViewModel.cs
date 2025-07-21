@@ -133,18 +133,32 @@ public partial class VideoPromptsViewModel : ObservableObject
     {
         try
         {
+            // Simulate video generation process
             var page = GetCurrentPage();
             if (page != null)
             {
                 await page.DisplayAlert(
-                    "Generate Video", 
-                    $"Ready to generate video with {TotalPrompts} prompts ({EditedPrompts} edited)!", 
+                    "Generating Video", 
+                    "Creating your viral video with AI. This may take a few moments...", 
                     "OK");
             }
+
+            // Navigate to video display page
+            await Shell.Current.GoToAsync("VideoDisplay", new Dictionary<string, object>
+            {
+                ["VideoTitle"] = VideoIdea,
+                ["OriginalPrompt"] = VideoIdea,
+                ["EnhancedPrompt"] = string.Join("; ", Prompts.Select(p => p.Content)),
+                ["EnglishContent"] = $"AI-generated viral video based on: {VideoIdea}. This video includes {TotalPrompts} carefully crafted scenes designed to maximize engagement and virality."
+            });
         }
-        catch
+        catch (Exception ex)
         {
-            // Handle any navigation errors silently
+            var page = GetCurrentPage();
+            if (page != null)
+            {
+                await page.DisplayAlert("Error", $"Failed to generate video: {ex.Message}", "OK");
+            }
         }
     }
 

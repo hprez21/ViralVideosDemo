@@ -2,6 +2,7 @@
 using ViralVideosDemo.Services;
 using ViralVideosDemo.Pages;
 using ViralVideosDemo.ViewModels;
+using CommunityToolkit.Maui;
 
 namespace ViralVideosDemo
 {
@@ -12,6 +13,7 @@ namespace ViralVideosDemo
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkitMediaElement()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -26,11 +28,13 @@ namespace ViralVideosDemo
             builder.Services.AddTransient<AddVideoIdeaPage>();
             builder.Services.AddTransient<VideoPromptsPage>();
             builder.Services.AddTransient<SettingsPage>();
+            builder.Services.AddTransient<VideoDisplayPage>();
 
             // Register ViewModels
             builder.Services.AddTransient<AddVideoIdeaViewModel>();
             builder.Services.AddTransient<VideoPromptsViewModel>();
             builder.Services.AddTransient<SettingsViewModel>();
+            builder.Services.AddTransient<VideoDisplayViewModel>();
 
 #if DEBUG
     		builder.Logging.AddDebug();

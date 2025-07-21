@@ -10,6 +10,7 @@ public partial class AddVideoIdeaViewModel : ObservableObject
     private readonly IChatService _chatService;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CanGenerateStory))]
     private string videoIdea = string.Empty;
 
     [ObservableProperty]
@@ -34,6 +35,7 @@ public partial class AddVideoIdeaViewModel : ObservableObject
     private Color enhancementToggleBorderColor = Colors.Gray;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CanGenerateStory))]
     private bool isGenerating = false;
 
     // Reference to the page for displaying alerts

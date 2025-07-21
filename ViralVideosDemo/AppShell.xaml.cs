@@ -12,6 +12,7 @@ namespace ViralVideosDemo
             Routing.RegisterRoute("AddVideoIdea", typeof(AddVideoIdeaPage));
             Routing.RegisterRoute("VideoPrompts", typeof(VideoPromptsPage));
             Routing.RegisterRoute("Settings", typeof(SettingsPage));
+            Routing.RegisterRoute("VideoDisplay", typeof(VideoDisplayPage));
         }
     }
 }
