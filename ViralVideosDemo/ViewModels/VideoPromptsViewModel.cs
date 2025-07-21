@@ -1,4 +1,6 @@
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ViralVideosDemo.Services;
@@ -8,6 +10,7 @@ namespace ViralVideosDemo.ViewModels;
 public partial class VideoPromptsViewModel : ObservableObject, IQueryAttributable
 {
     private readonly IChatService _chatService;
+    private readonly ISoraService _soraService;
 
     [ObservableProperty]
     private ObservableCollection<VideoPrompt> prompts = new();
@@ -29,9 +32,10 @@ public partial class VideoPromptsViewModel : ObservableObject, IQueryAttributabl
     private string _enhancedIdea = string.Empty;
     private bool _wasEnhanced = false;
 
-    public VideoPromptsViewModel(IChatService chatService)
+    public VideoPromptsViewModel(IChatService chatService, ISoraService soraService)
     {
         _chatService = chatService;
+        _soraService = soraService;
         // Don't load sample data by default anymore
     }
 
@@ -219,31 +223,124 @@ public partial class VideoPromptsViewModel : ObservableObject, IQueryAttributabl
     {
         try
         {
-            // Simulate video generation process
+            Debug.WriteLine("[VideoPrompts] GenerateVideo started");
             var page = GetCurrentPage();
+            
+            // Check if SORA service is configured
+            var isConfigured = await _soraService.IsConfiguredAsync();
+            Debug.WriteLine($"[VideoPrompts] SORA configured: {isConfigured}");
+            
+            if (!isConfigured)
+            {
+                Debug.WriteLine("[VideoPrompts] SORA not configured, showing alert");
+                if (page != null)
+                {
+                    await page.DisplayAlert("Configuración requerida", 
+                        "Por favor configura las credenciales de SORA en la página de configuración.", 
+                        "OK");
+                }
+                return;
+            }
+
+            // Show loading dialog
             if (page != null)
             {
+                Debug.WriteLine("[VideoPrompts] Showing generation dialog");
                 await page.DisplayAlert(
-                    "Generating Video", 
-                    "Creating your viral video with AI. This may take a few moments...", 
+                    "Generando Video", 
+                    "Creando tu video viral con IA. Esto puede tomar varios minutos...", 
                     "OK");
             }
 
-            // Navigate to video display page
-            await Shell.Current.GoToAsync("VideoDisplay", new Dictionary<string, object>
+            // Generate the combined prompt from all prompts
+            var combinedPrompt = string.Join(". ", Prompts.Select(p => p.Content));
+            if (string.IsNullOrWhiteSpace(combinedPrompt))
+            {
+                combinedPrompt = VideoIdea; // Fallback to original idea
+            }
+
+            Debug.WriteLine($"[VideoPrompts] Combined prompt: {combinedPrompt}");
+            Debug.WriteLine("[VideoPrompts] Starting SORA video generation...");
+
+            // Generate video using SORA service
+            var videoFilePath = await _soraService.GenerateVideoAsync(combinedPrompt);
+            
+            Debug.WriteLine($"[VideoPrompts] ✅ Video generated successfully: {videoFilePath}");
+            Debug.WriteLine($"[VideoPrompts] File exists: {File.Exists(videoFilePath)}");
+            Debug.WriteLine($"[VideoPrompts] File size: {new FileInfo(videoFilePath).Length / 1024 / 1024:F2} MB");
+
+            // Prepare navigation parameters
+            var navigationParams = new Dictionary<string, object>
             {
                 ["VideoTitle"] = VideoIdea,
-                ["OriginalPrompt"] = VideoIdea,
-                ["EnhancedPrompt"] = string.Join("; ", Prompts.Select(p => p.Content)),
-                ["EnglishContent"] = $"AI-generated viral video based on: {VideoIdea}. This video includes {TotalPrompts} carefully crafted scenes designed to maximize engagement and virality."
-            });
+                ["VideoSource"] = videoFilePath,
+                ["OriginalPrompt"] = _originalIdea,
+                ["EnhancedPrompt"] = _wasEnhanced ? _enhancedIdea : "",
+                ["EnglishContent"] = combinedPrompt,
+                ["HasEnhancedPrompt"] = _wasEnhanced.ToString()
+            };
+
+            Debug.WriteLine("[VideoPrompts] Navigation parameters:");
+            foreach (var kvp in navigationParams)
+            {
+                Debug.WriteLine($"[VideoPrompts]   {kvp.Key}: {kvp.Value}");
+            }
+
+            // Navigate to video display page with real video
+            Debug.WriteLine("[VideoPrompts] Navigating to VideoDisplay page...");
+            await Shell.Current.GoToAsync("VideoDisplay", navigationParams);
+
+            // Show success message
+            if (page != null)
+            {
+                Debug.WriteLine("[VideoPrompts] Showing success message");
+                await page.DisplayAlert("¡Video Generado!", 
+                    $"Tu video viral ha sido creado exitosamente.\n\nArchivo: {Path.GetFileName(videoFilePath)}", 
+                    "Ver Video");
+            }
+            
+            Debug.WriteLine("[VideoPrompts] GenerateVideo completed successfully");
         }
-        catch (Exception ex)
+        catch (InvalidOperationException ex)
         {
+            Debug.WriteLine($"[VideoPrompts] Configuration error: {ex.Message}");
             var page = GetCurrentPage();
             if (page != null)
             {
-                await page.DisplayAlert("Error", $"Failed to generate video: {ex.Message}", "OK");
+                await page.DisplayAlert("Error de Configuración", ex.Message, "OK");
+            }
+        }
+        catch (TimeoutException)
+        {
+            Debug.WriteLine("[VideoPrompts] Timeout error");
+            var page = GetCurrentPage();
+            if (page != null)
+            {
+                await page.DisplayAlert("Tiempo Agotado", 
+                    "La generación del video tomó demasiado tiempo. Por favor intenta de nuevo.", 
+                    "OK");
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            Debug.WriteLine($"[VideoPrompts] HTTP error: {ex.Message}");
+            var page = GetCurrentPage();
+            if (page != null)
+            {
+                await page.DisplayAlert("Error de Conexión", 
+                    $"Error al conectar con el servicio SORA: {ex.Message}", 
+                    "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"[VideoPrompts] Unexpected error: {ex.Message}");
+            Debug.WriteLine($"[VideoPrompts] Exception type: {ex.GetType().Name}");
+            Debug.WriteLine($"[VideoPrompts] Stack trace: {ex.StackTrace}");
+            var page = GetCurrentPage();
+            if (page != null)
+            {
+                await page.DisplayAlert("Error", $"Error al generar video: {ex.Message}", "OK");
             }
         }
     }

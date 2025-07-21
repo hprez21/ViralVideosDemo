@@ -23,6 +23,7 @@ namespace ViralVideosDemo
             // Register services for dependency injection
             builder.Services.AddSingleton<HttpClient>();
             builder.Services.AddSingleton<IChatService, ChatService>();
+            builder.Services.AddSingleton<ISoraService, SoraService>();
             
             // Register pages
             builder.Services.AddTransient<AddVideoIdeaPage>();

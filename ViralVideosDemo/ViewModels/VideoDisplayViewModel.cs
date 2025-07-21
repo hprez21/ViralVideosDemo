@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Maui.Views;
 using Microsoft.Maui.Controls;
 using System.Diagnostics;
+using System.IO;
 
 namespace ViralVideosDemo.ViewModels
 {
@@ -191,24 +192,77 @@ namespace ViralVideosDemo.ViewModels
         // IQueryAttributable implementation
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
+            Debug.WriteLine("[VideoDisplay] ApplyQueryAttributes called");
+            Debug.WriteLine($"[VideoDisplay] Received {query.Count} parameters:");
+            
+            foreach (var kvp in query)
+            {
+                Debug.WriteLine($"[VideoDisplay]   {kvp.Key}: {kvp.Value}");
+            }
+
             if (query.ContainsKey("VideoTitle"))
+            {
                 VideoTitle = query["VideoTitle"].ToString() ?? "";
+                Debug.WriteLine($"[VideoDisplay] Set VideoTitle: {VideoTitle}");
+            }
+
+            if (query.ContainsKey("VideoSource"))
+            {
+                var videoPath = query["VideoSource"].ToString() ?? "";
+                Debug.WriteLine($"[VideoDisplay] Received VideoSource: {videoPath}");
+                
+                // Validate that the file exists
+                if (File.Exists(videoPath))
+                {
+                    VideoSource = videoPath;
+                    Debug.WriteLine($"[VideoDisplay] ✅ Video file exists, set VideoSource: {VideoSource}");
+                }
+                else
+                {
+                    Debug.WriteLine($"[VideoDisplay] ❌ Video file not found: {videoPath}");
+                    // Fallback to sample video for demo
+                    VideoSource = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+                    Debug.WriteLine($"[VideoDisplay] Using fallback video: {VideoSource}");
+                }
+            }
+            else
+            {
+                Debug.WriteLine("[VideoDisplay] No VideoSource parameter received, using fallback");
+                VideoSource = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+            }
 
             if (query.ContainsKey("OriginalPrompt"))
+            {
                 OriginalPrompt = query["OriginalPrompt"].ToString() ?? "";
+                Debug.WriteLine($"[VideoDisplay] Set OriginalPrompt: {OriginalPrompt}");
+            }
 
             if (query.ContainsKey("EnhancedPrompt"))
             {
                 EnhancedPrompt = query["EnhancedPrompt"].ToString() ?? "";
                 HasEnhancedPrompt = !string.IsNullOrEmpty(EnhancedPrompt);
+                Debug.WriteLine($"[VideoDisplay] Set EnhancedPrompt: {EnhancedPrompt}");
+                Debug.WriteLine($"[VideoDisplay] HasEnhancedPrompt: {HasEnhancedPrompt}");
+            }
+
+            if (query.ContainsKey("HasEnhancedPrompt"))
+            {
+                if (bool.TryParse(query["HasEnhancedPrompt"].ToString(), out bool hasEnhanced))
+                {
+                    HasEnhancedPrompt = hasEnhanced;
+                    Debug.WriteLine($"[VideoDisplay] Set HasEnhancedPrompt from parameter: {HasEnhancedPrompt}");
+                }
             }
 
             if (query.ContainsKey("EnglishContent"))
+            {
                 EnglishContent = query["EnglishContent"].ToString() ?? "";
+                Debug.WriteLine($"[VideoDisplay] Set EnglishContent: {EnglishContent}");
+            }
 
-            // For demo purposes, use a sample video URL
-            VideoSource = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
             VideoDescription = $"AI-generated viral video: {VideoTitle}";
+            Debug.WriteLine($"[VideoDisplay] Set VideoDescription: {VideoDescription}");
+            Debug.WriteLine("[VideoDisplay] ApplyQueryAttributes completed");
         }
     }
 }
