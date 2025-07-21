@@ -3,7 +3,9 @@
     x:Class="ViralVideosDemo.Pages.AddVideoIdeaPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Add Video Idea">
+    xmlns:vm="clr-namespace:ViralVideosDemo.ViewModels"
+    Title="Add Video Idea"
+    x:DataType="vm:AddVideoIdeaViewModel">
 
     <ScrollView>
         <VerticalStackLayout
@@ -13,7 +15,6 @@
 
             <!--  Title  -->
             <Label
-                x:Name="TitleLabel"
                 FontAttributes="Bold"
                 FontSize="24"
                 HorizontalOptions="Center"
@@ -23,7 +24,6 @@
 
             <!--  Subtitle  -->
             <Label
-                x:Name="SubtitleLabel"
                 FontSize="16"
                 HorizontalOptions="Center"
                 Text="Describe your creative idea for a viral video"
@@ -41,13 +41,13 @@
                 StrokeThickness="1">
 
                 <Editor
-                    x:Name="VideoIdeaEditor"
                     BackgroundColor="Transparent"
                     FontSize="16"
                     HeightRequest="200"
                     Placeholder="Tell us about your viral video idea... What makes it special? What's the concept, story, or hook that will capture viewers' attention?"
                     PlaceholderColor="{AppThemeBinding Light={StaticResource Gray400},
                                                        Dark={StaticResource Gray500}}"
+                    Text="{Binding VideoIdea}"
                     TextColor="{AppThemeBinding Light={StaticResource Black},
                                                 Dark={StaticResource White}}" />
 
@@ -55,10 +55,9 @@
 
             <!--  Character count label  -->
             <Label
-                x:Name="CharacterCountLabel"
                 FontSize="12"
                 HorizontalOptions="End"
-                Text="0 characters"
+                Text="{Binding CharacterCountText}"
                 TextColor="{AppThemeBinding Light={StaticResource Gray500},
                                             Dark={StaticResource Gray400}}" />
 
@@ -115,36 +114,34 @@
 
                     <!--  Enhancement Toggle  -->
                     <Border
-                        x:Name="EnhancementToggleBorder"
                         Grid.Column="2"
-                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray200},
-                                                          Dark={StaticResource Gray600}}"
+                        BackgroundColor="{Binding EnhancementToggleBorderColor}"
                         HeightRequest="30"
                         StrokeShape="RoundRectangle 20"
                         VerticalOptions="Center"
                         WidthRequest="50">
 
                         <Border.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnEnhancementToggleTapped" />
+                            <TapGestureRecognizer Command="{Binding ToggleEnhancementCommand}" />
                         </Border.GestureRecognizers>
 
                         <Grid>
                             <!--  Toggle Circle  -->
                             <Border
-                                x:Name="EnhancementToggleCircle"
                                 Margin="2,0"
                                 BackgroundColor="White"
                                 HeightRequest="26"
                                 HorizontalOptions="Start"
                                 StrokeShape="RoundRectangle 14"
+                                TranslationX="{Binding EnhancementToggleTranslationX}"
                                 VerticalOptions="Center"
                                 WidthRequest="26">
 
                                 <Label
                                     FontSize="12"
                                     HorizontalOptions="Center"
-                                    Opacity="0.5"
-                                    Text="🤖"
+                                    Opacity="{Binding EnhancementToggleOpacity}"
+                                    Text="{Binding EnhancementToggleIcon}"
                                     VerticalOptions="Center" />
                             </Border>
                         </Grid>
@@ -155,15 +152,16 @@
 
             <!--  Generate Button  -->
             <Button
-                x:Name="GenerateViralStoryButton"
                 Margin="0,20,0,0"
                 BackgroundColor="{StaticResource Primary}"
+                Command="{Binding GenerateViralStoryCommand}"
                 CornerRadius="25"
                 FontAttributes="Bold"
                 FontSize="18"
                 HeightRequest="50"
                 HorizontalOptions="Fill"
-                Text="Generate Viral Story"
+                IsEnabled="{Binding CanGenerateStory}"
+                Text="{Binding GenerateButtonText}"
                 TextColor="White" />
 
         </VerticalStackLayout>
