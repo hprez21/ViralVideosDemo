@@ -1,11 +1,14 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Controls;
+using ViralVideosDemo.Services;
 
 namespace ViralVideosDemo.ViewModels;
 
 public partial class AddVideoIdeaViewModel : ObservableObject
 {
+    private readonly IChatService _chatService;
+
     [ObservableProperty]
     private string videoIdea = string.Empty;
 
@@ -36,9 +39,36 @@ public partial class AddVideoIdeaViewModel : ObservableObject
     // Reference to the page for displaying alerts
     private Page? _page;
 
+    public AddVideoIdeaViewModel(IChatService chatService)
+    {
+        _chatService = chatService;
+        CheckChatServiceConfiguration();
+    }
+
     public void SetPage(Page page)
     {
         _page = page;
+    }
+
+    /// <summary>
+    /// Checks if chat service is configured and updates UI accordingly
+    /// </summary>
+    private async void CheckChatServiceConfiguration()
+    {
+        try
+        {
+            var isConfigured = await _chatService.IsConfiguredAsync();
+            if (!isConfigured)
+            {
+                // Update UI to indicate that enhancement requires configuration
+                EnhancementToggleIcon = "⚙️";
+            }
+        }
+        catch
+        {
+            // If checking fails, assume not configured
+            EnhancementToggleIcon = "⚙️";
+        }
     }
 
     /// <summary>
@@ -88,19 +118,65 @@ public partial class AddVideoIdeaViewModel : ObservableObject
 
         try
         {
-            // Show different message based on enhancement setting
-            var message = IsEnhancementEnabled 
-                ? "AI will enhance and generate viral story from your idea!" 
-                : "Viral story will be generated from your idea!";
+            string finalVideoIdea = VideoIdea;
 
-            // TODO: Add logic to process the user's idea and generate viral story
-            // TODO: Consider enhancement setting when calling AI service
-            if (_page != null)
+            // Check if enhancement is enabled and service is configured
+            if (IsEnhancementEnabled)
             {
-                await _page.DisplayAlert("Success", message, "OK");
+                var isConfigured = await _chatService.IsConfiguredAsync();
+                if (!isConfigured)
+                {
+                    if (_page != null)
+                    {
+                        var result = await _page.DisplayAlert(
+                            "Service Not Configured", 
+                            "AI enhancement requires Azure LLM configuration. Would you like to go to Settings to configure it?", 
+                            "Go to Settings", 
+                            "Continue without Enhancement");
+                        
+                        if (result)
+                        {
+                            await Shell.Current.GoToAsync("//Settings");
+                            return;
+                        }
+                        else
+                        {
+                            // Continue without enhancement
+                            IsEnhancementEnabled = false;
+                            await AnimateToggle();
+                        }
+                    }
+                }
+                else
+                {
+                    // Enhance the idea using Azure LLM
+                    try
+                    {
+                        finalVideoIdea = await _chatService.EnhancePromptAsync(VideoIdea);
+                        
+                        if (_page != null)
+                        {
+                            await _page.DisplayAlert("Enhanced!", 
+                                $"Your idea has been enhanced by AI!\n\nOriginal: {VideoIdea}\n\nEnhanced: {finalVideoIdea}", 
+                                "Continue");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (_page != null)
+                        {
+                            await _page.DisplayAlert("Enhancement Failed", 
+                                $"Failed to enhance the idea: {ex.Message}\n\nContinuing with original idea.", 
+                                "OK");
+                        }
+                    }
+                }
             }
 
-            // Navigate to VideoPromptsPage after generating
+            // TODO: Store the final video idea and enhancement status for the VideoPromptsPage
+            // You might want to use a shared service or pass this data through navigation
+
+            // Navigate to VideoPromptsPage after processing
             await Shell.Current.GoToAsync("//VideoPrompts");
         }
         finally

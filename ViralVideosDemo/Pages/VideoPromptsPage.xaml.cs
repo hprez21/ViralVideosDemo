@@ -4,9 +4,9 @@ namespace ViralVideosDemo.Pages;
 
 public partial class VideoPromptsPage : ContentPage
 {
-    public VideoPromptsPage()
+    public VideoPromptsPage(VideoPromptsViewModel viewModel)
     {
         InitializeComponent();
-        BindingContext = new VideoPromptsViewModel();
+        BindingContext = viewModel;
     }
 }

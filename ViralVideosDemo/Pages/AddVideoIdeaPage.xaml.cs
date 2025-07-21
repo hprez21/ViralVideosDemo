@@ -7,12 +7,12 @@ public partial class AddVideoIdeaPage : ContentPage
 {
     private readonly AddVideoIdeaViewModel _viewModel;
 
-    public AddVideoIdeaPage()
+    public AddVideoIdeaPage(AddVideoIdeaViewModel viewModel)
     {
         InitializeComponent();
         
-        // Initialize ViewModel and set as BindingContext
-        _viewModel = new AddVideoIdeaViewModel();
+        // Set the injected ViewModel as BindingContext
+        _viewModel = viewModel;
         BindingContext = _viewModel;
         
         // Set the page reference in the ViewModel for alerts

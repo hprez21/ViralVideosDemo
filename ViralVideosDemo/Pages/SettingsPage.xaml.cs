@@ -7,12 +7,10 @@ public partial class SettingsPage : ContentPage
 {
     private readonly SettingsViewModel _viewModel;
 
-    public SettingsPage()
+    public SettingsPage(SettingsViewModel viewModel)
     {
         InitializeComponent();
-        
-        // Initialize ViewModel and set as BindingContext
-        _viewModel = new SettingsViewModel();
+        _viewModel = viewModel;
         BindingContext = _viewModel;
         
         // Set the page reference in the ViewModel for alerts
