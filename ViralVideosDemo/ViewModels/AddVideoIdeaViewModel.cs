@@ -176,10 +176,16 @@ public partial class AddVideoIdeaViewModel : ObservableObject
             }
 
             // TODO: Store the final video idea and enhancement status for the VideoPromptsPage
-            // You might want to use a shared service or pass this data through navigation
+            // Pass the data through navigation parameters
+            var navigationParameters = new Dictionary<string, object>
+            {
+                ["VideoIdea"] = VideoIdea,
+                ["EnhancedIdea"] = finalVideoIdea ?? string.Empty,
+                ["WasEnhanced"] = (finalVideoIdea != VideoIdea && !string.IsNullOrEmpty(finalVideoIdea)).ToString()
+            };
 
             // Navigate to VideoPromptsPage after processing
-            await Shell.Current.GoToAsync("//VideoPrompts");
+            await Shell.Current.GoToAsync("//VideoPrompts", navigationParameters);
         }
         finally
         {

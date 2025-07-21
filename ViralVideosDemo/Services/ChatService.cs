@@ -51,25 +51,26 @@ public class ChatService : IChatService
             }
 
             var enhancementPrompt = $@"
-You are an expert in creating viral video content. Please enhance the following video idea to make it more engaging, trendy, and likely to go viral on social media platforms like TikTok, Instagram Reels, and YouTube Shorts.
+You are an expert in creating viral video content. For the following video idea, I need you to create a one-paragraph prompt for an AI video generator that produces engaging, trendy videos with strong viral potential on platforms like TikTok, Instagram Reels, and YouTube Shorts.
 
 Original idea: {originalIdea}
 
-Please provide an enhanced version that:
-- Incorporates current trends
-- Has strong hook potential
-- Is optimized for short-form content
-- Includes engaging elements like humor, surprise, or emotion
-- Is concise and actionable
+The resulting prompt must:
 
-Enhanced idea:";
+Incorporate current trends
+
+Have a strong hook from the start
+
+Be optimized for short-form content
+
+Do not return explanations or additional text, only the improved prompt.";
 
             var response = await CallAzureLLMAsync(enhancementPrompt);
             
             // Extract just the enhanced idea from the response
-            var enhancedIdea = ExtractEnhancedIdea(response);
+            //var enhancedIdea = ExtractEnhancedIdea(response);
             
-            return !string.IsNullOrWhiteSpace(enhancedIdea) ? enhancedIdea : originalIdea;
+            return !string.IsNullOrWhiteSpace(response) ? response : originalIdea;
         }
         catch (Exception ex)
         {

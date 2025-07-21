@@ -9,6 +9,30 @@
     <ScrollView>
         <StackLayout Padding="20" Spacing="15">
             
+            <!-- Loading Indicator -->
+            <StackLayout IsVisible="{Binding IsLoading}" 
+                         VerticalOptions="Center" 
+                         HorizontalOptions="Center"
+                         Spacing="20">
+                <ActivityIndicator IsRunning="{Binding IsLoading}" 
+                                   Color="{StaticResource Primary}" 
+                                   WidthRequest="50" 
+                                   HeightRequest="50"/>
+                <Label Text="Generando prompts con IA..." 
+                       FontSize="18" 
+                       HorizontalOptions="Center" 
+                       TextColor="{StaticResource Primary}"/>
+                <Label Text="Por favor espera mientras creamos los mejores prompts para tu video viral" 
+                       FontSize="14" 
+                       HorizontalOptions="Center" 
+                       Opacity="0.7"
+                       HorizontalTextAlignment="Center"/>
+            </StackLayout>
+
+            <!-- Main Content (hidden while loading) -->
+            <StackLayout IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" 
+                         Spacing="15">
+            
             <!-- Header Section -->
             <Border BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"
                     StrokeThickness="0">
@@ -140,6 +164,8 @@
                     TextColor="White"
                     Command="{Binding GenerateVideoCommand}"
                     Margin="0,20,0,0"/>
+
+            </StackLayout> <!-- Close main content StackLayout -->
 
         </StackLayout>
     </ScrollView>
