@@ -1,69 +1,172 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage x:Class="ViralVideosDemo.Pages.AddVideoIdeaPage"
-             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             Title="Add Video Idea">
-    
+<ContentPage
+    x:Class="ViralVideosDemo.Pages.AddVideoIdeaPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Add Video Idea">
+
     <ScrollView>
-        <VerticalStackLayout Spacing="25" Padding="30,0" VerticalOptions="Center">
-            
-            <!-- Title -->
-            <Label 
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25"
+            VerticalOptions="Center">
+
+            <!--  Title  -->
+            <Label
                 x:Name="TitleLabel"
-                Text="Share Your Viral Video Idea"
-                FontSize="24"
                 FontAttributes="Bold"
+                FontSize="24"
                 HorizontalOptions="Center"
-                TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
-            
-            <!-- Subtitle -->
-            <Label 
+                Text="Share Your Viral Video Idea"
+                TextColor="{AppThemeBinding Light={StaticResource Primary},
+                                            Dark={StaticResource White}}" />
+
+            <!--  Subtitle  -->
+            <Label
                 x:Name="SubtitleLabel"
-                Text="Describe your creative idea for a viral video"
                 FontSize="16"
                 HorizontalOptions="Center"
-                TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
-            
-            <!-- Text Input Area -->
-            <Border Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}"
-                    StrokeThickness="1"
-                    StrokeShape="RoundRectangle 8"
-                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray950}}"
-                    Padding="10">
-                
-                <Editor 
+                Text="Describe your creative idea for a viral video"
+                TextColor="{AppThemeBinding Light={StaticResource Gray600},
+                                            Dark={StaticResource Gray300}}" />
+
+            <!--  Text Input Area  -->
+            <Border
+                Padding="10"
+                BackgroundColor="{AppThemeBinding Light={StaticResource White},
+                                                  Dark={StaticResource Gray950}}"
+                Stroke="{AppThemeBinding Light={StaticResource Gray200},
+                                         Dark={StaticResource Gray500}}"
+                StrokeShape="RoundRectangle 8"
+                StrokeThickness="1">
+
+                <Editor
                     x:Name="VideoIdeaEditor"
-                    Placeholder="Tell us about your viral video idea... What makes it special? What's the concept, story, or hook that will capture viewers' attention?"
-                    HeightRequest="200"
+                    BackgroundColor="Transparent"
                     FontSize="16"
-                    PlaceholderColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}"
-                    TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
-                    BackgroundColor="Transparent" />
-                
+                    HeightRequest="200"
+                    Placeholder="Tell us about your viral video idea... What makes it special? What's the concept, story, or hook that will capture viewers' attention?"
+                    PlaceholderColor="{AppThemeBinding Light={StaticResource Gray400},
+                                                       Dark={StaticResource Gray500}}"
+                    TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                Dark={StaticResource White}}" />
+
             </Border>
-            
-            <!-- Character count label -->
-            <Label 
+
+            <!--  Character count label  -->
+            <Label
                 x:Name="CharacterCountLabel"
-                Text="0 characters"
                 FontSize="12"
                 HorizontalOptions="End"
-                TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
-            
-            <!-- Generate Button -->
-            <Button 
+                Text="0 characters"
+                TextColor="{AppThemeBinding Light={StaticResource Gray500},
+                                            Dark={StaticResource Gray400}}" />
+
+            <!--  AI Enhancement Option  -->
+            <Border
+                Margin="0,10,0,0"
+                Padding="15"
+                BackgroundColor="{AppThemeBinding Light={StaticResource Gray100},
+                                                  Dark={StaticResource Gray900}}"
+                Stroke="{AppThemeBinding Light={StaticResource Gray200},
+                                         Dark={StaticResource Gray500}}"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="1">
+
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+
+                    <!--  AI Enhancement Icon  -->
+                    <Border
+                        Grid.Column="0"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Primary},
+                                                          Dark={StaticResource Primary}}"
+                        HeightRequest="32"
+                        HorizontalOptions="Center"
+                        StrokeShape="RoundRectangle 8"
+                        VerticalOptions="Center"
+                        WidthRequest="32">
+
+                        <Label
+                            FontSize="16"
+                            HorizontalOptions="Center"
+                            Text="✨"
+                            TextColor="White"
+                            VerticalOptions="Center" />
+                    </Border>
+
+                    <!--  Enhancement Description  -->
+                    <StackLayout
+                        Grid.Column="1"
+                        Spacing="2"
+                        VerticalOptions="Center">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text="AI Prompt Enhancement"
+                            TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                        Dark={StaticResource White}}" />
+
+                        <Label
+                            FontSize="13"
+                            Text="Let AI optimize your idea for better viral potential"
+                            TextColor="{AppThemeBinding Light={StaticResource Gray600},
+                                                        Dark={StaticResource Gray400}}" />
+                    </StackLayout>
+
+                    <!--  Enhancement Toggle  -->
+                    <Border
+                        x:Name="EnhancementToggleBorder"
+                        Grid.Column="2"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Gray200},
+                                                          Dark={StaticResource Gray600}}"
+                        HeightRequest="30"
+                        StrokeShape="RoundRectangle 20"
+                        VerticalOptions="Center"
+                        WidthRequest="50">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnEnhancementToggleTapped" />
+                        </Border.GestureRecognizers>
+
+                        <Grid>
+                            <!--  Toggle Circle  -->
+                            <Border
+                                x:Name="EnhancementToggleCircle"
+                                Margin="2,0"
+                                BackgroundColor="White"
+                                HeightRequest="26"
+                                HorizontalOptions="Start"
+                                StrokeShape="RoundRectangle 14"
+                                VerticalOptions="Center"
+                                WidthRequest="26">
+
+                                <Label
+                                    FontSize="12"
+                                    HorizontalOptions="Center"
+                                    Opacity="0.5"
+                                    Text="🤖"
+                                    VerticalOptions="Center" />
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                </Grid>
+            </Border>
+
+            <!--  Generate Button  -->
+            <Button
                 x:Name="GenerateViralStoryButton"
-                Text="Generate Viral Story"
-                FontSize="18"
-                FontAttributes="Bold"
-                HeightRequest="50"
+                Margin="0,20,0,0"
                 BackgroundColor="{StaticResource Primary}"
-                TextColor="White"
                 CornerRadius="25"
+                FontAttributes="Bold"
+                FontSize="18"
+                HeightRequest="50"
                 HorizontalOptions="Fill"
-                Margin="0,20,0,0" />
-            
+                Text="Generate Viral Story"
+                TextColor="White" />
+
         </VerticalStackLayout>
     </ScrollView>
-    
+
 </ContentPage>
