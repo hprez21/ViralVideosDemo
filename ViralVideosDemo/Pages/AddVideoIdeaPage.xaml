@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="ViralVideosDemo.Pages.AddVideoIdeaPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Add Video Idea">
+    
+    <ScrollView>
+        <VerticalStackLayout Spacing="25" Padding="30,0" VerticalOptions="Center">
+            
+            <!-- Title -->
+            <Label 
+                x:Name="TitleLabel"
+                Text="Share Your Viral Video Idea"
+                FontSize="24"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
+            
+            <!-- Subtitle -->
+            <Label 
+                x:Name="SubtitleLabel"
+                Text="Describe your creative idea for a viral video"
+                FontSize="16"
+                HorizontalOptions="Center"
+                TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+            
+            <!-- Text Input Area -->
+            <Border Stroke="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 8"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray950}}"
+                    Padding="10">
+                
+                <Editor 
+                    x:Name="VideoIdeaEditor"
+                    Placeholder="Tell us about your viral video idea... What makes it special? What's the concept, story, or hook that will capture viewers' attention?"
+                    HeightRequest="200"
+                    FontSize="16"
+                    PlaceholderColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray500}}"
+                    TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                    BackgroundColor="Transparent" />
+                
+            </Border>
+            
+            <!-- Character count label -->
+            <Label 
+                x:Name="CharacterCountLabel"
+                Text="0 characters"
+                FontSize="12"
+                HorizontalOptions="End"
+                TextColor="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray400}}" />
+            
+            <!-- Generate Button -->
+            <Button 
+                x:Name="GenerateViralStoryButton"
+                Text="Generate Viral Story"
+                FontSize="18"
+                FontAttributes="Bold"
+                HeightRequest="50"
+                BackgroundColor="{StaticResource Primary}"
+                TextColor="White"
+                CornerRadius="25"
+                HorizontalOptions="Fill"
+                Margin="0,20,0,0" />
+            
+        </VerticalStackLayout>
+    </ScrollView>
+    
+</ContentPage>
