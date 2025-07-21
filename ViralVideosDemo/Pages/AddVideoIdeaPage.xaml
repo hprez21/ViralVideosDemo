@@ -150,6 +150,147 @@
                 </Grid>
             </Border>
 
+            <!--  Video Configuration Section  -->
+            <Border
+                Margin="0,20,0,0"
+                Padding="20"
+                BackgroundColor="{AppThemeBinding Light={StaticResource Gray100},
+                                                  Dark={StaticResource Gray900}}"
+                Stroke="{AppThemeBinding Light={StaticResource Gray200},
+                                         Dark={StaticResource Gray500}}"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="1">
+
+                <StackLayout Spacing="20">
+
+                    <!--  Configuration Header  -->
+                    <StackLayout Orientation="Horizontal" Spacing="10">
+                        <Border
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary},
+                                                              Dark={StaticResource Primary}}"
+                            HeightRequest="28"
+                            StrokeShape="RoundRectangle 6"
+                            VerticalOptions="Center"
+                            WidthRequest="28">
+                            <Label
+                                FontSize="14"
+                                HorizontalOptions="Center"
+                                Text="🎬"
+                                TextColor="White"
+                                VerticalOptions="Center" />
+                        </Border>
+
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            Text="Video Configuration"
+                            TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                        Dark={StaticResource White}}"
+                            VerticalOptions="Center" />
+                    </StackLayout>
+
+                    <!--  Resolution Selection  -->
+                    <StackLayout>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="Resolution"
+                            TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                        Dark={StaticResource White}}" />
+                        <Label
+                            FontSize="12"
+                            Text="Select video quality level - higher resolution provides better quality but takes longer to generate"
+                            TextColor="{AppThemeBinding Light={StaticResource Gray600},
+                                                        Dark={StaticResource Gray400}}" />
+
+                        <Border
+                            Margin="0,8,0,0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource White},
+                                                              Dark={StaticResource Gray950}}"
+                            Stroke="{AppThemeBinding Light={StaticResource Gray300},
+                                                     Dark={StaticResource Gray600}}"
+                            StrokeShape="RoundRectangle 8"
+                            StrokeThickness="1">
+                            <Picker
+                                BackgroundColor="Transparent"
+                                FontSize="16"
+                                ItemsSource="{Binding ResolutionOptions}"
+                                SelectedItem="{Binding SelectedResolution}"
+                                TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                            Dark={StaticResource White}}"
+                                Title="Select Resolution" />
+                        </Border>
+                    </StackLayout>
+
+                    <!--  Duration Selection  -->
+                    <StackLayout>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="Duration (seconds)"
+                            TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                        Dark={StaticResource White}}" />
+                        <Label
+                            FontSize="12"
+                            Text="Longer videos take more time to generate"
+                            TextColor="{AppThemeBinding Light={StaticResource Gray600},
+                                                        Dark={StaticResource Gray400}}" />
+
+                        <Border
+                            Margin="0,8,0,0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource White},
+                                                              Dark={StaticResource Gray950}}"
+                            Stroke="{AppThemeBinding Light={StaticResource Gray300},
+                                                     Dark={StaticResource Gray600}}"
+                            StrokeShape="RoundRectangle 8"
+                            StrokeThickness="1">
+                            <Picker
+                                BackgroundColor="Transparent"
+                                FontSize="16"
+                                ItemsSource="{Binding DurationOptions}"
+                                SelectedItem="{Binding SelectedDuration}"
+                                TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                            Dark={StaticResource White}}"
+                                Title="Select Duration" />
+                        </Border>
+                    </StackLayout>
+
+                    <!--  Orientation Selection  -->
+                    <StackLayout>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="Orientation"
+                            TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                        Dark={StaticResource White}}" />
+                        <Label
+                            FontSize="12"
+                            Text="Choose aspect ratio: Horizontal (16:9), Vertical (9:16), or Square (1:1)"
+                            TextColor="{AppThemeBinding Light={StaticResource Gray600},
+                                                        Dark={StaticResource Gray400}}" />
+
+                        <Border
+                            Margin="0,8,0,0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource White},
+                                                              Dark={StaticResource Gray950}}"
+                            Stroke="{AppThemeBinding Light={StaticResource Gray300},
+                                                     Dark={StaticResource Gray600}}"
+                            StrokeShape="RoundRectangle 8"
+                            StrokeThickness="1">
+                            <Picker
+                                BackgroundColor="Transparent"
+                                FontSize="16"
+                                ItemsSource="{Binding OrientationOptions}"
+                                SelectedItem="{Binding SelectedOrientation}"
+                                TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                            Dark={StaticResource White}}"
+                                Title="Select Orientation" />
+                        </Border>
+                    </StackLayout>
+
+                </StackLayout>
+            </Border>
+
             <!--  Generate Button  -->
             <Button
                 Margin="0,20,0,0"

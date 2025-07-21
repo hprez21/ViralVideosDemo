@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.Controls;
@@ -37,6 +38,21 @@ public partial class AddVideoIdeaViewModel : ObservableObject
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(CanGenerateStory))]
     private bool isGenerating = false;
+
+    // Video Configuration Properties
+    [ObservableProperty]
+    private string selectedResolution = "720";
+
+    [ObservableProperty]
+    private string selectedDuration = "10";
+
+    [ObservableProperty]
+    private string selectedOrientation = "Horizontal";
+
+    // Available options for pickers
+    public List<string> ResolutionOptions { get; } = ["480", "720", "1080"];
+    public List<string> DurationOptions { get; } = ["5", "10", "15", "20"];
+    public List<string> OrientationOptions { get; } = ["Horizontal", "Vertical", "Square"];
 
     // Reference to the page for displaying alerts
     private Page? _page;
@@ -176,12 +192,19 @@ public partial class AddVideoIdeaViewModel : ObservableObject
             }
 
             // TODO: Store the final video idea and enhancement status for the VideoPromptsPage
-            // Pass the data through navigation parameters
+            // Pass the data through navigation parameters including video configuration
+            var (width, height) = GetVideoDimensions();
+            var duration = int.Parse(SelectedDuration);
+            
             var navigationParameters = new Dictionary<string, object>
             {
                 ["VideoIdea"] = VideoIdea,
                 ["EnhancedIdea"] = finalVideoIdea ?? string.Empty,
-                ["WasEnhanced"] = (finalVideoIdea != VideoIdea && !string.IsNullOrEmpty(finalVideoIdea)).ToString()
+                ["WasEnhanced"] = (finalVideoIdea != VideoIdea && !string.IsNullOrEmpty(finalVideoIdea)).ToString(),
+                ["VideoWidth"] = width.ToString(),
+                ["VideoHeight"] = height.ToString(),
+                ["VideoDuration"] = duration.ToString(),
+                ["VideoOrientation"] = SelectedOrientation
             };
 
             // Navigate to VideoPromptsPage after processing
@@ -277,4 +300,39 @@ public partial class AddVideoIdeaViewModel : ObservableObject
     /// Validates if the current idea is ready for generation
     /// </summary>
     public bool CanGenerateStory => !string.IsNullOrWhiteSpace(VideoIdea) && !IsGenerating;
+
+    /// <summary>
+    /// Gets video dimensions based on selected resolution and orientation
+    /// Using SORA-supported resolution combinations
+    /// </summary>
+    /// <returns>Tuple with width and height values</returns>
+    private (int width, int height) GetVideoDimensions()
+    {
+        // SORA supported resolutions: (480, 480), (854, 480), (720, 720), (1280, 720), (1080, 1080), (1920, 1080)
+        return SelectedOrientation switch
+        {
+            "Horizontal" => SelectedResolution switch
+            {
+                "480" => (854, 480),    // Horizontal 480p
+                "720" => (1280, 720),   // Horizontal 720p (HD)
+                "1080" => (1920, 1080), // Horizontal 1080p (Full HD)
+                _ => (1280, 720)        // Default to 720p horizontal
+            },
+            "Vertical" => SelectedResolution switch
+            {
+                "480" => (480, 854),    // Vertical 480p
+                "720" => (720, 1280),   // Vertical 720p
+                "1080" => (1080, 1920), // Vertical 1080p
+                _ => (720, 1280)        // Default to 720p vertical
+            },
+            "Square" => SelectedResolution switch
+            {
+                "480" => (480, 480),    // Square 480p
+                "720" => (720, 720),    // Square 720p
+                "1080" => (1080, 1080), // Square 1080p
+                _ => (720, 720)         // Default to 720p square
+            },
+            _ => (1280, 720)            // Default to horizontal 720p
+        };
+    }
 }

@@ -32,6 +32,12 @@ public partial class VideoPromptsViewModel : ObservableObject, IQueryAttributabl
     private string _enhancedIdea = string.Empty;
     private bool _wasEnhanced = false;
 
+    // Video configuration properties
+    private int _videoWidth = 1280;      // Default horizontal 720p
+    private int _videoHeight = 720;
+    private int _videoDuration = 10;     // Default 10 seconds
+    private string _videoOrientation = "Horizontal";
+
     public VideoPromptsViewModel(IChatService chatService, ISoraService soraService)
     {
         _chatService = chatService;
@@ -56,6 +62,27 @@ public partial class VideoPromptsViewModel : ObservableObject, IQueryAttributabl
         if (query.ContainsKey("WasEnhanced"))
         {
             _wasEnhanced = bool.Parse(query["WasEnhanced"].ToString() ?? "false");
+        }
+
+        // Get video configuration parameters
+        if (query.ContainsKey("VideoWidth"))
+        {
+            int.TryParse(query["VideoWidth"].ToString(), out _videoWidth);
+        }
+
+        if (query.ContainsKey("VideoHeight"))
+        {
+            int.TryParse(query["VideoHeight"].ToString(), out _videoHeight);
+        }
+
+        if (query.ContainsKey("VideoDuration"))
+        {
+            int.TryParse(query["VideoDuration"].ToString(), out _videoDuration);
+        }
+
+        if (query.ContainsKey("VideoOrientation"))
+        {
+            _videoOrientation = query["VideoOrientation"].ToString() ?? "Horizontal";
         }
 
         // Set the display idea (enhanced if available, otherwise original)
@@ -260,10 +287,11 @@ public partial class VideoPromptsViewModel : ObservableObject, IQueryAttributabl
             }
 
             Debug.WriteLine($"[VideoPrompts] Combined prompt: {combinedPrompt}");
+            Debug.WriteLine($"[VideoPrompts] Video configuration: {_videoWidth}x{_videoHeight}, {_videoDuration}s, {_videoOrientation}");
             Debug.WriteLine("[VideoPrompts] Starting SORA video generation...");
 
-            // Generate video using SORA service
-            var videoFilePath = await _soraService.GenerateVideoAsync(combinedPrompt);
+            // Generate video using SORA service with custom configuration
+            var videoFilePath = await _soraService.GenerateVideoAsync(combinedPrompt, _videoWidth, _videoHeight, _videoDuration);
             
             Debug.WriteLine($"[VideoPrompts] ✅ Video generated successfully: {videoFilePath}");
             Debug.WriteLine($"[VideoPrompts] File exists: {File.Exists(videoFilePath)}");
