@@ -5,11 +5,26 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:ViralVideosDemo"
     xmlns:pages="clr-namespace:ViralVideosDemo.Pages"
-    Title="ViralVideosDemo">
+    Title="ViralVideosDemo"
+    FlyoutBehavior="Flyout">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate pages:AddVideoIdeaPage}"
-        Route="MainPage" />
+    <FlyoutItem Title="Videos Virales" Icon="video.png">
+        <ShellContent
+            Title="Nueva Idea"
+            ContentTemplate="{DataTemplate pages:AddVideoIdeaPage}"
+            Route="AddVideoIdea" />
+
+        <ShellContent
+            Title="Prompts Generados"
+            ContentTemplate="{DataTemplate pages:VideoPromptsPage}"
+            Route="VideoPrompts" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Configuración" Icon="settings.png">
+        <ShellContent
+            Title="Configuración"
+            ContentTemplate="{DataTemplate pages:SettingsPage}"
+            Route="Settings" />
+    </FlyoutItem>
 
 </Shell>

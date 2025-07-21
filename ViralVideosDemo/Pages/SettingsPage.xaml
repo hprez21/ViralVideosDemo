@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ViralVideosDemo.Pages.SettingsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:ViralVideosDemo.ViewModels"
+    Title="Settings"
+    x:DataType="vm:SettingsViewModel">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="25">
+
+            <!--  Page Header  -->
+            <StackLayout Spacing="5">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="28"
+                    HorizontalOptions="Center"
+                    Text="App Settings"
+                    TextColor="{AppThemeBinding Light={StaticResource Primary},
+                                                Dark={StaticResource White}}" />
+
+                <Label
+                    FontSize="14"
+                    HorizontalOptions="Center"
+                    Text="Configure your AI services connections"
+                    TextColor="{AppThemeBinding Light={StaticResource Gray600},
+                                                Dark={StaticResource Gray300}}" />
+            </StackLayout>
+
+            <!--  Azure LLM Configuration Section  -->
+            <Border
+                Padding="20"
+                BackgroundColor="{AppThemeBinding Light={StaticResource White},
+                                                  Dark={StaticResource Gray900}}"
+                Stroke="{AppThemeBinding Light={StaticResource Gray200},
+                                         Dark={StaticResource Gray600}}"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="1">
+
+                <StackLayout Spacing="15">
+
+                    <!--  Section Header  -->
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                        <Border
+                            Grid.Column="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary},
+                                                              Dark={StaticResource Primary}}"
+                            HeightRequest="32"
+                            StrokeShape="RoundRectangle 8"
+                            VerticalOptions="Center"
+                            WidthRequest="32">
+                            <Label
+                                FontSize="16"
+                                HorizontalOptions="Center"
+                                Text="🧠"
+                                TextColor="White"
+                                VerticalOptions="Center" />
+                        </Border>
+
+                        <StackLayout Grid.Column="1" VerticalOptions="Center">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="Azure LLM Service"
+                                TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                            Dark={StaticResource White}}" />
+                            <Label
+                                FontSize="12"
+                                Text="Configure your Azure Language Model connection"
+                                TextColor="{AppThemeBinding Light={StaticResource Gray600},
+                                                            Dark={StaticResource Gray400}}" />
+                        </StackLayout>
+
+                        <Button
+                            Grid.Column="2"
+                            BackgroundColor="Transparent"
+                            BorderColor="{AppThemeBinding Light={StaticResource Primary},
+                                                          Dark={StaticResource White}}"
+                            BorderWidth="1"
+                            Command="{Binding TestAzureLlmConnectionCommand}"
+                            CornerRadius="8"
+                            FontSize="12"
+                            HeightRequest="32"
+                            IsEnabled="{Binding IsAzureLlmConfigComplete}"
+                            Text="Test"
+                            TextColor="{AppThemeBinding Light={StaticResource Primary},
+                                                        Dark={StaticResource White}}"
+                            WidthRequest="60" />
+                    </Grid>
+
+                    <!--  Endpoint Field  -->
+                    <StackLayout Spacing="5">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="Endpoint URL"
+                            TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                        Dark={StaticResource White}}" />
+
+                        <Border
+                            Stroke="{AppThemeBinding Light={StaticResource Gray300},
+                                                     Dark={StaticResource Gray500}}"
+                            StrokeShape="RoundRectangle 8"
+                            StrokeThickness="1">
+                            <Entry
+                                FontSize="14"
+                                Placeholder="https://your-resource.openai.azure.com/"
+                                PlaceholderColor="{AppThemeBinding Light={StaticResource Gray400},
+                                                                   Dark={StaticResource Gray500}}"
+                                Text="{Binding AzureLlmEndpoint}"
+                                TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                            Dark={StaticResource White}}" />
+                        </Border>
+                    </StackLayout>
+
+                    <!--  API Key Field  -->
+                    <StackLayout Spacing="5">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="API Key"
+                            TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                        Dark={StaticResource White}}" />
+
+                        <Border
+                            Stroke="{AppThemeBinding Light={StaticResource Gray300},
+                                                     Dark={StaticResource Gray500}}"
+                            StrokeShape="RoundRectangle 8"
+                            StrokeThickness="1">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Entry
+                                    Grid.Column="0"
+                                    FontSize="14"
+                                    IsPassword="{Binding IsAzureLlmApiKeyVisible, Converter={StaticResource InvertedBoolConverter}}"
+                                    Placeholder="Enter your Azure API key"
+                                    PlaceholderColor="{AppThemeBinding Light={StaticResource Gray400},
+                                                                       Dark={StaticResource Gray500}}"
+                                    Text="{Binding AzureLlmApiKey}"
+                                    TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                                Dark={StaticResource White}}" />
+
+                                <Button
+                                    Grid.Column="1"
+                                    BackgroundColor="Transparent"
+                                    Command="{Binding ToggleAzureLlmApiKeyVisibilityCommand}"
+                                    FontSize="16"
+                                    Padding="5"
+                                    Text="{Binding AzureLlmApiKeyToggleIcon}"
+                                    TextColor="{AppThemeBinding Light={StaticResource Gray600},
+                                                                Dark={StaticResource Gray400}}" />
+                            </Grid>
+                        </Border>
+                    </StackLayout>
+
+                    <!--  Deployment Name Field  -->
+                    <StackLayout Spacing="5">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="Deployment Name"
+                            TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                        Dark={StaticResource White}}" />
+
+                        <Border
+                            Stroke="{AppThemeBinding Light={StaticResource Gray300},
+                                                     Dark={StaticResource Gray500}}"
+                            StrokeShape="RoundRectangle 8"
+                            StrokeThickness="1">
+                            <Entry
+                                FontSize="14"
+                                Placeholder="gpt-4, gpt-35-turbo, etc."
+                                PlaceholderColor="{AppThemeBinding Light={StaticResource Gray400},
+                                                                   Dark={StaticResource Gray500}}"
+                                Text="{Binding AzureLlmDeployment}"
+                                TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                            Dark={StaticResource White}}" />
+                        </Border>
+                    </StackLayout>
+
+                </StackLayout>
+            </Border>
+
+            <!--  SORA Configuration Section  -->
+            <Border
+                Padding="20"
+                BackgroundColor="{AppThemeBinding Light={StaticResource White},
+                                                  Dark={StaticResource Gray900}}"
+                Stroke="{AppThemeBinding Light={StaticResource Gray200},
+                                         Dark={StaticResource Gray600}}"
+                StrokeShape="RoundRectangle 12"
+                StrokeThickness="1">
+
+                <StackLayout Spacing="15">
+
+                    <!--  Section Header  -->
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                        <Border
+                            Grid.Column="0"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary},
+                                                              Dark={StaticResource Primary}}"
+                            HeightRequest="32"
+                            StrokeShape="RoundRectangle 8"
+                            VerticalOptions="Center"
+                            WidthRequest="32">
+                            <Label
+                                FontSize="16"
+                                HorizontalOptions="Center"
+                                Text="🎬"
+                                TextColor="White"
+                                VerticalOptions="Center" />
+                        </Border>
+
+                        <StackLayout Grid.Column="1" VerticalOptions="Center">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                Text="SORA Video Service"
+                                TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                            Dark={StaticResource White}}" />
+                            <Label
+                                FontSize="12"
+                                Text="Configure your SORA video generation connection"
+                                TextColor="{AppThemeBinding Light={StaticResource Gray600},
+                                                            Dark={StaticResource Gray400}}" />
+                        </StackLayout>
+
+                        <Button
+                            Grid.Column="2"
+                            BackgroundColor="Transparent"
+                            BorderColor="{AppThemeBinding Light={StaticResource Primary},
+                                                          Dark={StaticResource White}}"
+                            BorderWidth="1"
+                            Command="{Binding TestSoraConnectionCommand}"
+                            CornerRadius="8"
+                            FontSize="12"
+                            HeightRequest="32"
+                            IsEnabled="{Binding IsSoraConfigComplete}"
+                            Text="Test"
+                            TextColor="{AppThemeBinding Light={StaticResource Primary},
+                                                        Dark={StaticResource White}}"
+                            WidthRequest="60" />
+                    </Grid>
+
+                    <!--  Endpoint Field  -->
+                    <StackLayout Spacing="5">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="Endpoint URL"
+                            TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                        Dark={StaticResource White}}" />
+
+                        <Border
+                            Stroke="{AppThemeBinding Light={StaticResource Gray300},
+                                                     Dark={StaticResource Gray500}}"
+                            StrokeShape="RoundRectangle 8"
+                            StrokeThickness="1">
+                            <Entry
+                                FontSize="14"
+                                Placeholder="https://api.openai.com/v1/sora/"
+                                PlaceholderColor="{AppThemeBinding Light={StaticResource Gray400},
+                                                                   Dark={StaticResource Gray500}}"
+                                Text="{Binding SoraEndpoint}"
+                                TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                            Dark={StaticResource White}}" />
+                        </Border>
+                    </StackLayout>
+
+                    <!--  API Key Field  -->
+                    <StackLayout Spacing="5">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="API Key"
+                            TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                        Dark={StaticResource White}}" />
+
+                        <Border
+                            Stroke="{AppThemeBinding Light={StaticResource Gray300},
+                                                     Dark={StaticResource Gray500}}"
+                            StrokeShape="RoundRectangle 8"
+                            StrokeThickness="1">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Entry
+                                    Grid.Column="0"
+                                    FontSize="14"
+                                    IsPassword="{Binding IsSoraApiKeyVisible, Converter={StaticResource InvertedBoolConverter}}"
+                                    Placeholder="Enter your SORA API key"
+                                    PlaceholderColor="{AppThemeBinding Light={StaticResource Gray400},
+                                                                       Dark={StaticResource Gray500}}"
+                                    Text="{Binding SoraApiKey}"
+                                    TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                                Dark={StaticResource White}}" />
+
+                                <Button
+                                    Grid.Column="1"
+                                    BackgroundColor="Transparent"
+                                    Command="{Binding ToggleSoraApiKeyVisibilityCommand}"
+                                    FontSize="16"
+                                    Padding="5"
+                                    Text="{Binding SoraApiKeyToggleIcon}"
+                                    TextColor="{AppThemeBinding Light={StaticResource Gray600},
+                                                                Dark={StaticResource Gray400}}" />
+                            </Grid>
+                        </Border>
+                    </StackLayout>
+
+                    <!--  Deployment Name Field  -->
+                    <StackLayout Spacing="5">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="Model Name"
+                            TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                        Dark={StaticResource White}}" />
+
+                        <Border
+                            Stroke="{AppThemeBinding Light={StaticResource Gray300},
+                                                     Dark={StaticResource Gray500}}"
+                            StrokeShape="RoundRectangle 8"
+                            StrokeThickness="1">
+                            <Entry
+                                FontSize="14"
+                                Placeholder="sora-1.0, sora-turbo, etc."
+                                PlaceholderColor="{AppThemeBinding Light={StaticResource Gray400},
+                                                                   Dark={StaticResource Gray500}}"
+                                Text="{Binding SoraDeployment}"
+                                TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                            Dark={StaticResource White}}" />
+                        </Border>
+                    </StackLayout>
+
+                </StackLayout>
+            </Border>
+
+            <!--  Action Buttons  -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="15" Margin="0,10,0,0">
+
+                <Button
+                    Grid.Column="0"
+                    BackgroundColor="Transparent"
+                    BorderColor="#DC3545"
+                    BorderWidth="2"
+                    Command="{Binding ClearSettingsCommand}"
+                    CornerRadius="25"
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    HeightRequest="50"
+                    Text="Clear All"
+                    TextColor="#DC3545" />
+
+                <Button
+                    Grid.Column="1"
+                    BackgroundColor="{StaticResource Primary}"
+                    Command="{Binding SaveSettingsCommand}"
+                    CornerRadius="25"
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    HeightRequest="50"
+                    IsEnabled="{Binding IsSaving, Converter={StaticResource InvertedBoolConverter}}"
+                    Text="Save Settings"
+                    TextColor="White" />
+
+            </Grid>
+
+            <!--  Loading Indicator  -->
+            <ActivityIndicator
+                HeightRequest="30"
+                IsRunning="{Binding IsSaving}"
+                IsVisible="{Binding IsSaving}"
+                Color="{StaticResource Primary}" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

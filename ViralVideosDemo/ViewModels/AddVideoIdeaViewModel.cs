@@ -97,11 +97,11 @@ public partial class AddVideoIdeaViewModel : ObservableObject
             // TODO: Consider enhancement setting when calling AI service
             if (_page != null)
             {
-                await _page.DisplayAlert("Coming Soon", message, "OK");
+                await _page.DisplayAlert("Success", message, "OK");
             }
 
-            // TODO: Navigate to VideoPromptsPage with generated prompts
-            // await Shell.Current.GoToAsync($"///{nameof(VideoPromptsPage)}");
+            // Navigate to VideoPromptsPage after generating
+            await Shell.Current.GoToAsync("//VideoPrompts");
         }
         finally
         {
