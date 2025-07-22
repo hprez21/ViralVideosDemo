@@ -8,21 +8,21 @@
     Title="ViralVideosDemo"
     FlyoutBehavior="Flyout">
 
-    <FlyoutItem Title="Videos Virales" Icon="video.png">
+    <FlyoutItem Title="Viral Videos" Icon="video.png">
         <ShellContent
-            Title="Nueva Idea"
+            Title="New Video Idea"
             ContentTemplate="{DataTemplate pages:AddVideoIdeaPage}"
             Route="AddVideoIdea" />
 
         <ShellContent
-            Title="Prompts Generados"
+            Title="Generated Prompts"
             ContentTemplate="{DataTemplate pages:VideoPromptsPage}"
             Route="VideoPrompts" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Configuración" Icon="settings.png">
+    <FlyoutItem Title="Configuration" Icon="settings.png">
         <ShellContent
-            Title="Configuración"
+            Title="Configuration"
             ContentTemplate="{DataTemplate pages:SettingsPage}"
             Route="Settings" />
     </FlyoutItem>

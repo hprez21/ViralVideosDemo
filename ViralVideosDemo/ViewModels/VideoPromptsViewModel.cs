@@ -252,18 +252,18 @@ public partial class VideoPromptsViewModel : ObservableObject, IQueryAttributabl
         {
             Debug.WriteLine("[VideoPrompts] GenerateVideo started");
             var page = GetCurrentPage();
-            
+
             // Check if SORA service is configured
             var isConfigured = await _soraService.IsConfiguredAsync();
             Debug.WriteLine($"[VideoPrompts] SORA configured: {isConfigured}");
-            
+
             if (!isConfigured)
             {
                 Debug.WriteLine("[VideoPrompts] SORA not configured, showing alert");
                 if (page != null)
                 {
-                    await page.DisplayAlert("Configuración requerida", 
-                        "Por favor configura las credenciales de SORA en la página de configuración.", 
+                    await page.DisplayAlert("Configuration Required",
+                        "Please configure your SORA credentials in the settings page.",
                         "OK");
                 }
                 return;
@@ -286,7 +286,7 @@ public partial class VideoPromptsViewModel : ObservableObject, IQueryAttributabl
 
             // Generate video using SORA service with custom configuration
             var videoFilePath = await _soraService.GenerateVideoAsync(combinedPrompt, _videoWidth, _videoHeight, _videoDuration);
-            
+
             Debug.WriteLine($"[VideoPrompts] ✅ Video generated successfully: {videoFilePath}");
             Debug.WriteLine($"[VideoPrompts] File exists: {File.Exists(videoFilePath)}");
             Debug.WriteLine($"[VideoPrompts] File size: {new FileInfo(videoFilePath).Length / 1024 / 1024:F2} MB");
@@ -316,11 +316,11 @@ public partial class VideoPromptsViewModel : ObservableObject, IQueryAttributabl
             if (page != null)
             {
                 Debug.WriteLine("[VideoPrompts] Showing success message");
-                await page.DisplayAlert("¡Video Generado!", 
-                    $"Tu video viral ha sido creado exitosamente.\n\nArchivo: {Path.GetFileName(videoFilePath)}", 
-                    "Ver Video");
+                await page.DisplayAlert("Video Generated!",
+                    $"Your viral video has been created successfully.\n\nFile: {Path.GetFileName(videoFilePath)}",
+                    "Watch Video");
             }
-            
+
             Debug.WriteLine("[VideoPrompts] GenerateVideo completed successfully");
         }
         catch (InvalidOperationException ex)
@@ -329,7 +329,7 @@ public partial class VideoPromptsViewModel : ObservableObject, IQueryAttributabl
             var page = GetCurrentPage();
             if (page != null)
             {
-                await page.DisplayAlert("Error de Configuración", ex.Message, "OK");
+                await page.DisplayAlert("Configuration Error", ex.Message, "OK");
             }
         }
         catch (TimeoutException)
@@ -338,8 +338,8 @@ public partial class VideoPromptsViewModel : ObservableObject, IQueryAttributabl
             var page = GetCurrentPage();
             if (page != null)
             {
-                await page.DisplayAlert("Tiempo Agotado", 
-                    "La generación del video tomó demasiado tiempo. Por favor intenta de nuevo.", 
+                await page.DisplayAlert("Timeout",
+                    "Video generation took too long. Please try again.",
                     "OK");
             }
         }
@@ -349,8 +349,8 @@ public partial class VideoPromptsViewModel : ObservableObject, IQueryAttributabl
             var page = GetCurrentPage();
             if (page != null)
             {
-                await page.DisplayAlert("Error de Conexión", 
-                    $"Error al conectar con el servicio SORA: {ex.Message}", 
+                await page.DisplayAlert("Connection Error",
+                    $"Failed to connect to the SORA service: {ex.Message}",
                     "OK");
             }
         }
@@ -362,7 +362,7 @@ public partial class VideoPromptsViewModel : ObservableObject, IQueryAttributabl
             var page = GetCurrentPage();
             if (page != null)
             {
-                await page.DisplayAlert("Error", $"Error al generar video: {ex.Message}", "OK");
+                await page.DisplayAlert("Error", $"An error occurred while generating the video: {ex.Message}", "OK");
             }
         }
         finally
@@ -372,6 +372,7 @@ public partial class VideoPromptsViewModel : ObservableObject, IQueryAttributabl
             Debug.WriteLine("[VideoPrompts] Loading UI deactivated - interaction restored");
         }
     }
+
 
     private Page? GetCurrentPage()
     {

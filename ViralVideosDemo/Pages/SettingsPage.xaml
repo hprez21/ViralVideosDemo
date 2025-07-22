@@ -11,7 +11,7 @@
         <VerticalStackLayout Padding="20" Spacing="25">
 
             <!--  Page Header  -->
-            <StackLayout Spacing="5">
+            <VerticalStackLayout Spacing="5">
                 <Label
                     FontAttributes="Bold"
                     FontSize="28"
@@ -26,7 +26,7 @@
                     Text="Configure your AI services connections"
                     TextColor="{AppThemeBinding Light={StaticResource Gray600},
                                                 Dark={StaticResource Gray300}}" />
-            </StackLayout>
+            </VerticalStackLayout>
 
             <!--  Azure LLM Configuration Section  -->
             <Border
@@ -38,7 +38,7 @@
                 StrokeShape="RoundRectangle 12"
                 StrokeThickness="1">
 
-                <StackLayout Spacing="15">
+                <VerticalStackLayout Spacing="15">
 
                     <!--  Section Header  -->
                     <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
@@ -58,7 +58,7 @@
                                 VerticalOptions="Center" />
                         </Border>
 
-                        <StackLayout Grid.Column="1" VerticalOptions="Center">
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
                             <Label
                                 FontAttributes="Bold"
                                 FontSize="18"
@@ -70,7 +70,7 @@
                                 Text="Configure your Azure Language Model connection"
                                 TextColor="{AppThemeBinding Light={StaticResource Gray600},
                                                             Dark={StaticResource Gray400}}" />
-                        </StackLayout>
+                        </VerticalStackLayout>
 
                         <Button
                             Grid.Column="2"
@@ -90,7 +90,7 @@
                     </Grid>
 
                     <!--  Endpoint Field  -->
-                    <StackLayout Spacing="5">
+                    <VerticalStackLayout Spacing="5">
                         <Label
                             FontAttributes="Bold"
                             FontSize="14"
@@ -112,10 +112,10 @@
                                 TextColor="{AppThemeBinding Light={StaticResource Black},
                                                             Dark={StaticResource White}}" />
                         </Border>
-                    </StackLayout>
+                    </VerticalStackLayout>
 
                     <!--  API Key Field  -->
-                    <StackLayout Spacing="5">
+                    <VerticalStackLayout Spacing="5">
                         <Label
                             FontAttributes="Bold"
                             FontSize="14"
@@ -151,10 +151,10 @@
                                                                 Dark={StaticResource Gray400}}" />
                             </Grid>
                         </Border>
-                    </StackLayout>
+                    </VerticalStackLayout>
 
                     <!--  Deployment Name Field  -->
-                    <StackLayout Spacing="5">
+                    <VerticalStackLayout Spacing="5">
                         <Label
                             FontAttributes="Bold"
                             FontSize="14"
@@ -176,9 +176,9 @@
                                 TextColor="{AppThemeBinding Light={StaticResource Black},
                                                             Dark={StaticResource White}}" />
                         </Border>
-                    </StackLayout>
+                    </VerticalStackLayout>
 
-                </StackLayout>
+                </VerticalStackLayout>
             </Border>
 
             <!--  SORA Configuration Section  -->
@@ -191,7 +191,7 @@
                 StrokeShape="RoundRectangle 12"
                 StrokeThickness="1">
 
-                <StackLayout Spacing="15">
+                <VerticalStackLayout Spacing="15">
 
                     <!--  Section Header  -->
                     <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
@@ -211,7 +211,7 @@
                                 VerticalOptions="Center" />
                         </Border>
 
-                        <StackLayout Grid.Column="1" VerticalOptions="Center">
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
                             <Label
                                 FontAttributes="Bold"
                                 FontSize="18"
@@ -223,7 +223,7 @@
                                 Text="Configure your SORA video generation connection"
                                 TextColor="{AppThemeBinding Light={StaticResource Gray600},
                                                             Dark={StaticResource Gray400}}" />
-                        </StackLayout>
+                        </VerticalStackLayout>
 
                         <Button
                             Grid.Column="2"
@@ -243,7 +243,7 @@
                     </Grid>
 
                     <!--  Endpoint Field  -->
-                    <StackLayout Spacing="5">
+                    <VerticalStackLayout Spacing="5">
                         <Label
                             FontAttributes="Bold"
                             FontSize="14"
@@ -265,10 +265,10 @@
                                 TextColor="{AppThemeBinding Light={StaticResource Black},
                                                             Dark={StaticResource White}}" />
                         </Border>
-                    </StackLayout>
+                    </VerticalStackLayout>
 
                     <!--  API Key Field  -->
-                    <StackLayout Spacing="5">
+                    <VerticalStackLayout Spacing="5">
                         <Label
                             FontAttributes="Bold"
                             FontSize="14"
@@ -304,10 +304,10 @@
                                                                 Dark={StaticResource Gray400}}" />
                             </Grid>
                         </Border>
-                    </StackLayout>
+                    </VerticalStackLayout>
 
                     <!--  Deployment Name Field  -->
-                    <StackLayout Spacing="5">
+                    <VerticalStackLayout Spacing="5">
                         <Label
                             FontAttributes="Bold"
                             FontSize="14"
@@ -329,9 +329,9 @@
                                 TextColor="{AppThemeBinding Light={StaticResource Black},
                                                             Dark={StaticResource White}}" />
                         </Border>
-                    </StackLayout>
+                    </VerticalStackLayout>
 
-                </StackLayout>
+                </VerticalStackLayout>
             </Border>
 
             <!--  Action Buttons  -->
@@ -365,7 +365,7 @@
             </Grid>
 
             <!--  Loading Indicator  -->
-            <StackLayout IsVisible="{Binding IsSaving}" 
+            <VerticalStackLayout IsVisible="{Binding IsSaving}" 
                          Padding="20"
                          HorizontalOptions="Center" 
                          VerticalOptions="Center"
@@ -388,7 +388,7 @@
                        HorizontalOptions="Center" 
                        TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
                 
-            </StackLayout>
+            </VerticalStackLayout>
 
         </VerticalStackLayout>
     </ScrollView>

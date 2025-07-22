@@ -212,13 +212,13 @@
                             StrokeShape="RoundRectangle 8"
                             StrokeThickness="1">
                             <Picker
+                                Title="Select Resolution"
                                 BackgroundColor="Transparent"
                                 FontSize="16"
                                 ItemsSource="{Binding ResolutionOptions}"
                                 SelectedItem="{Binding SelectedResolution}"
                                 TextColor="{AppThemeBinding Light={StaticResource Black},
-                                                            Dark={StaticResource White}}"
-                                Title="Select Resolution" />
+                                                            Dark={StaticResource White}}" />
                         </Border>
                     </StackLayout>
 
@@ -245,13 +245,13 @@
                             StrokeShape="RoundRectangle 8"
                             StrokeThickness="1">
                             <Picker
+                                Title="Select Duration"
                                 BackgroundColor="Transparent"
                                 FontSize="16"
                                 ItemsSource="{Binding DurationOptions}"
                                 SelectedItem="{Binding SelectedDuration}"
                                 TextColor="{AppThemeBinding Light={StaticResource Black},
-                                                            Dark={StaticResource White}}"
-                                Title="Select Duration" />
+                                                            Dark={StaticResource White}}" />
                         </Border>
                     </StackLayout>
 
@@ -278,13 +278,13 @@
                             StrokeShape="RoundRectangle 8"
                             StrokeThickness="1">
                             <Picker
+                                Title="Select Orientation"
                                 BackgroundColor="Transparent"
                                 FontSize="16"
                                 ItemsSource="{Binding OrientationOptions}"
                                 SelectedItem="{Binding SelectedOrientation}"
                                 TextColor="{AppThemeBinding Light={StaticResource Black},
-                                                            Dark={StaticResource White}}"
-                                Title="Select Orientation" />
+                                                            Dark={StaticResource White}}" />
                         </Border>
                     </StackLayout>
 
@@ -317,39 +317,40 @@
                     HeightRequest="50"
                     HorizontalOptions="Center"
                     IsRunning="{Binding IsGenerating}"
-                    Color="{StaticResource Primary}"
-                    WidthRequest="50" />
+                    WidthRequest="50"
+                    Color="{StaticResource Primary}" />
 
                 <StackLayout Spacing="10">
                     <Label
                         FontAttributes="Bold"
                         FontSize="18"
                         HorizontalOptions="Center"
-                        Text="🧠 Procesando tu idea..."
+                        HorizontalTextAlignment="Center"
+                        Text="🧠 Processing your idea..."
                         TextColor="{AppThemeBinding Light={StaticResource Primary},
-                                                    Dark={StaticResource Primary}}"
-                        HorizontalTextAlignment="Center" />
+                                                    Dark={StaticResource Primary}}" />
 
                     <Label
                         FontSize="14"
                         HorizontalOptions="Center"
-                        Text="Estamos mejorando tu idea con IA y generando prompts optimizados para crear un video viral increíble."
-                        TextColor="{AppThemeBinding Light={StaticResource Gray600},
-                                                    Dark={StaticResource Gray400}}"
                         HorizontalTextAlignment="Center"
-                        LineBreakMode="WordWrap" />
-                        
+                        LineBreakMode="WordWrap"
+                        Text="We’re enhancing your idea with AI and generating optimized prompts to create an amazing viral video."
+                        TextColor="{AppThemeBinding Light={StaticResource Gray600},
+                                                    Dark={StaticResource Gray400}}" />
+
                     <Label
+                        FontAttributes="Italic"
                         FontSize="12"
                         HorizontalOptions="Center"
-                        Text="⏱️ Este proceso puede tomar unos momentos"
-                        TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                                                    Dark={StaticResource Gray500}}"
                         HorizontalTextAlignment="Center"
-                        FontAttributes="Italic" />
+                        Text="⏱️ This process may take a few moments"
+                        TextColor="{AppThemeBinding Light={StaticResource Gray500},
+                                                    Dark={StaticResource Gray500}}" />
                 </StackLayout>
 
             </StackLayout>
+
 
         </VerticalStackLayout>
     </ScrollView>

@@ -1,197 +1,223 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage x:Class="ViralVideosDemo.Pages.VideoDisplayPage"
-             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:vm="clr-namespace:ViralVideosDemo.ViewModels"
-             x:DataType="vm:VideoDisplayViewModel"
-             Title="Generated Video">
-    
+<ContentPage
+    x:Class="ViralVideosDemo.Pages.VideoDisplayPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:ViralVideosDemo.ViewModels"
+    Title="Generated Video"
+    x:DataType="vm:VideoDisplayViewModel">
+
     <ScrollView>
-        <StackLayout Padding="20" Spacing="15">
-            
+        <VerticalStackLayout Padding="20" Spacing="15">
+
             <!--  Loading Indicator  -->
-            <StackLayout IsVisible="{Binding IsLoading}" 
-                         Padding="30"
-                         HorizontalOptions="Center" 
-                         VerticalOptions="Center"
-                         Spacing="20">
-                
-                <ActivityIndicator IsRunning="{Binding IsLoading}" 
-                                   Color="{StaticResource Primary}"
-                                   HeightRequest="50"
-                                   WidthRequest="50"
-                                   HorizontalOptions="Center" />
-                
-                <Label Text="Loading your generated video..." 
-                       FontSize="18" 
-                       FontAttributes="Bold" 
-                       HorizontalOptions="Center" 
-                       TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}" />
-                
-                <Label Text="Please wait while we prepare your video for playback" 
-                       FontSize="14" 
-                       HorizontalOptions="Center" 
-                       TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
-                
-            </StackLayout>
-            
+            <VerticalStackLayout
+                Padding="30"
+                HorizontalOptions="Center"
+                IsVisible="{Binding IsLoading}"
+                Spacing="20"
+                VerticalOptions="Center">
+
+                <ActivityIndicator
+                    HeightRequest="50"
+                    HorizontalOptions="Center"
+                    IsRunning="{Binding IsLoading}"
+                    WidthRequest="50"
+                    Color="{StaticResource Primary}" />
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    HorizontalOptions="Center"
+                    Text="Loading your generated video..."
+                    TextColor="{AppThemeBinding Light={StaticResource Primary},
+                                                Dark={StaticResource Primary}}" />
+
+                <Label
+                    FontSize="14"
+                    HorizontalOptions="Center"
+                    Text="Please wait while we prepare your video for playback"
+                    TextColor="{AppThemeBinding Light={StaticResource Gray600},
+                                                Dark={StaticResource Gray400}}" />
+
+            </VerticalStackLayout>
+
             <!--  Main Content (hidden while loading)  -->
-            <StackLayout IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" 
-                         Spacing="15">
-            
-            <!-- Video Title -->
-            <Label Text="{Binding VideoTitle}" 
-                   FontSize="18" 
-                   FontAttributes="Bold" 
-                   HorizontalOptions="Center" 
-                   TextColor="White"/>
-            
-            <!-- MediaElement for video playback -->
-            <Border BackgroundColor="Black" 
-                    StrokeThickness="2" 
+            <VerticalStackLayout IsVisible="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}" Spacing="15">
+
+                <!--  Video Title  -->
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    HorizontalOptions="Center"
+                    Text="{Binding VideoTitle}"
+                    TextColor="White" />
+
+                <!--  MediaElement for video playback  -->
+                <Border
+                    Padding="5"
+                    BackgroundColor="Black"
                     Stroke="Gray"
-                    Padding="5">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="10"/>
-                </Border.StrokeShape>
-                
-                <toolkit:MediaElement x:Name="VideoPlayer"
-                                    Source="{Binding VideoSource}"
-                                    Aspect="AspectFit"
-                                    ShouldShowPlaybackControls="True"
-                                    ShouldAutoPlay="False"
-                                    ShouldLoopPlayback="False"
-                                    HeightRequest="300"
-                                    BackgroundColor="Black"/>
-            </Border>
-            
-            <!-- Video Controls -->
-            <StackLayout Orientation="Horizontal" 
-                         HorizontalOptions="Center" 
-                         Spacing="20">
-                <Button Text="Play" 
-                        Command="{Binding PlayCommand}"
+                    StrokeThickness="2">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10" />
+                    </Border.StrokeShape>
+
+                    <toolkit:MediaElement
+                        x:Name="VideoPlayer"
+                        Aspect="AspectFit"
+                        BackgroundColor="Black"
+                        HeightRequest="300"
+                        ShouldAutoPlay="False"
+                        ShouldLoopPlayback="False"
+                        ShouldShowPlaybackControls="True"
+                        Source="{Binding VideoSource}" />
+                </Border>
+
+                <!--  Video Controls  -->
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                    <Button
                         BackgroundColor="#1E90FF"
+                        Command="{Binding PlayCommand}"
+                        Text="Play"
                         TextColor="White"
-                        WidthRequest="80"/>
-                <Button Text="Pause" 
-                        Command="{Binding PauseCommand}"
+                        WidthRequest="80" />
+                    <Button
                         BackgroundColor="#FF4500"
+                        Command="{Binding PauseCommand}"
+                        Text="Pause"
                         TextColor="White"
-                        WidthRequest="80"/>
-                <Button Text="Stop" 
-                        Command="{Binding StopCommand}"
+                        WidthRequest="80" />
+                    <Button
                         BackgroundColor="#DC143C"
+                        Command="{Binding StopCommand}"
+                        Text="Stop"
                         TextColor="White"
-                        WidthRequest="80"/>
-            </StackLayout>
-            
-            <!-- Video Information -->
-            <Frame BackgroundColor="#2C2C2C" 
-                   BorderColor="Gray" 
-                   CornerRadius="10" 
-                   Padding="15">
-                <StackLayout Spacing="10">
-                    <Label Text="Video Information" 
-                           FontSize="16" 
-                           FontAttributes="Bold" 
-                           TextColor="White"/>
-                    
-                    <Label Text="{Binding VideoDescription}" 
-                           FontSize="14" 
-                           TextColor="LightGray"
-                           LineBreakMode="WordWrap"/>
-                    
-                    <Label Text="{Binding VideoDuration, StringFormat='Duration: {0}'}" 
-                           FontSize="12" 
-                           TextColor="LightGray"/>
-                    
-                    <Label Text="{Binding VideoStatus, StringFormat='Status: {0}'}" 
-                           FontSize="12" 
-                           TextColor="LightGray"/>
-                </StackLayout>
-            </Frame>
-            
-            <!-- Original Prompt Section -->
-            <Frame BackgroundColor="#2C2C2C" 
-                   BorderColor="Gray" 
-                   CornerRadius="10" 
-                   Padding="15">
-                <StackLayout Spacing="10">
-                    <Label Text="Original Prompt" 
-                           FontSize="16" 
-                           FontAttributes="Bold" 
-                           TextColor="White"/>
-                    
-                    <Label Text="{Binding OriginalPrompt}" 
-                           FontSize="14" 
-                           TextColor="LightGray"
-                           LineBreakMode="WordWrap"/>
-                </StackLayout>
-            </Frame>
-            
-            <!-- Enhanced Prompt Section (if available) -->
-            <Frame BackgroundColor="#2C2C2C" 
-                   BorderColor="Gray" 
-                   CornerRadius="10" 
-                   Padding="15"
-                   IsVisible="{Binding HasEnhancedPrompt}">
-                <StackLayout Spacing="10">
-                    <Label Text="AI Enhanced Prompt" 
-                           FontSize="16" 
-                           FontAttributes="Bold" 
-                           TextColor="White"/>
-                    
-                    <Label Text="{Binding EnhancedPrompt}" 
-                           FontSize="14" 
-                           TextColor="LightGray"
-                           LineBreakMode="WordWrap"/>
-                </StackLayout>
-            </Frame>
-            
-            <!-- English Content Section -->
-            <Frame BackgroundColor="#2C2C2C" 
-                   BorderColor="Gray" 
-                   CornerRadius="10" 
-                   Padding="15">
-                <StackLayout Spacing="10">
-                    <Label Text="English Content" 
-                           FontSize="16" 
-                           FontAttributes="Bold" 
-                           TextColor="White"/>
-                    
-                    <Label Text="{Binding EnglishContent}" 
-                           FontSize="14" 
-                           TextColor="LightGray"
-                           LineBreakMode="WordWrap"/>
-                </StackLayout>
-            </Frame>
-            
-            <!-- Action Buttons -->
-            <StackLayout Orientation="Horizontal" 
-                         HorizontalOptions="Center" 
-                         Spacing="15">
-                <Button Text="Share Video" 
-                        Command="{Binding ShareVideoCommand}"
+                        WidthRequest="80" />
+                </HorizontalStackLayout>
+
+                <!--  Video Information  -->
+                <Border
+                    Padding="15"
+                    BackgroundColor="#2C2C2C"
+                    Stroke="Gray"
+                    StrokeShape="RoundRectangle 10">
+                    <VerticalStackLayout Spacing="10">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text="Video Information"
+                            TextColor="White" />
+
+                        <Label
+                            FontSize="14"
+                            LineBreakMode="WordWrap"
+                            Text="{Binding VideoDescription}"
+                            TextColor="LightGray" />
+
+                        <Label
+                            FontSize="12"
+                            Text="{Binding VideoDuration, StringFormat='Duration: {0}'}"
+                            TextColor="LightGray" />
+
+                        <Label
+                            FontSize="12"
+                            Text="{Binding VideoStatus, StringFormat='Status: {0}'}"
+                            TextColor="LightGray" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!--  Original Prompt Section  -->
+                <Border
+                    Padding="15"
+                    BackgroundColor="#2C2C2C"
+                    Stroke="Gray"
+                    StrokeShape="RoundRectangle 10">
+                    <VerticalStackLayout Spacing="10">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text="Original Prompt"
+                            TextColor="White" />
+
+                        <Label
+                            FontSize="14"
+                            LineBreakMode="WordWrap"
+                            Text="{Binding OriginalPrompt}"
+                            TextColor="LightGray" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!--  Enhanced Prompt Section (if available)  -->
+                <Border
+                    Padding="15"
+                    BackgroundColor="#2C2C2C"
+                    IsVisible="{Binding HasEnhancedPrompt}"
+                    Stroke="Gray"
+                    StrokeShape="RoundRectangle 10">
+                    <VerticalStackLayout Spacing="10">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text="AI Enhanced Prompt"
+                            TextColor="White" />
+
+                        <Label
+                            FontSize="14"
+                            LineBreakMode="WordWrap"
+                            Text="{Binding EnhancedPrompt}"
+                            TextColor="LightGray" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!--  English Content Section  -->
+                <Border
+                    Padding="15"
+                    BackgroundColor="#2C2C2C"
+                    Stroke="Gray"
+                    StrokeShape="RoundRectangle 10">
+                    <VerticalStackLayout Spacing="10">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text="English Content"
+                            TextColor="White" />
+
+                        <Label
+                            FontSize="14"
+                            LineBreakMode="WordWrap"
+                            Text="{Binding EnglishContent}"
+                            TextColor="LightGray" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!--  Action Buttons  -->
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="15">
+                    <Button
                         BackgroundColor="#32CD32"
+                        Command="{Binding ShareVideoCommand}"
+                        Text="Share Video"
                         TextColor="White"
-                        WidthRequest="120"/>
-                <Button Text="Download" 
-                        Command="{Binding DownloadCommand}"
+                        WidthRequest="120" />
+                    <Button
                         BackgroundColor="#4169E1"
+                        Command="{Binding DownloadCommand}"
+                        Text="Download"
                         TextColor="White"
-                        WidthRequest="120"/>
-                <Button Text="Back" 
-                        Command="{Binding BackCommand}"
+                        WidthRequest="120" />
+                    <Button
                         BackgroundColor="#696969"
+                        Command="{Binding BackCommand}"
+                        Text="Back"
                         TextColor="White"
-                        WidthRequest="120"/>
-            </StackLayout>
-            
-            </StackLayout> <!-- Closing main content StackLayout -->
-            
-        </StackLayout>
+                        WidthRequest="120" />
+                </HorizontalStackLayout>
+
+            </VerticalStackLayout>
+            <!--  Closing main content StackLayout  -->
+
+        </VerticalStackLayout>
     </ScrollView>
-    
+
 </ContentPage>
