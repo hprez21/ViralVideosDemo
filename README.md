@@ -2,6 +2,8 @@
 
 A cross-platform mobile application built with .NET MAUI 9.0 that leverages AI to create viral video content using Azure OpenAI's SORA and LLM services.
 
+https://github.com/user-attachments/assets/a020c54c-b8cd-4df2-83f7-5b098cb72996
+
 ## 📱 Overview
 
 Viral Videos Demo is an innovative mobile app that transforms user ideas into viral video content through the power of artificial intelligence. The app combines Azure OpenAI's language models for prompt enhancement and SORA API for video generation, providing users with a seamless experience to create engaging video content.
